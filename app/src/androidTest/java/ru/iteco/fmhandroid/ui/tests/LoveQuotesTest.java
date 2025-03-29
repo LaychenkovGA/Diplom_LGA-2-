@@ -61,7 +61,6 @@ public class LoveQuotesTest {
 
         loveStep.checkOurMissionElements();
     }
-
 }
 
 

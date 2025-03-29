@@ -64,6 +64,13 @@ public class MainPaigeTest {
     }
 
     @Test
+    @DisplayName("Переход во вкладку Наша миссия")
+    public void goToOurMission() {
+        mainSteps.clickOurMissionButton();
+        loveStep.checkOurMissionElements();
+    }
+
+    @Test
     @DisplayName("Сворачивание и разворачивание раздела новостей")
     public void newsBlockCheck() {
         mainSteps.checkAllNews();

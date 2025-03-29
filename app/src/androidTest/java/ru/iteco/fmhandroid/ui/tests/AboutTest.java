@@ -65,6 +65,4 @@ public class AboutTest {
         aboutStep.clickTermsOfUseLink();
         aboutStep.clickPrivacyPolicyLink();
     }
-
-
 }

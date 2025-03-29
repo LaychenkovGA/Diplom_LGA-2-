@@ -66,7 +66,6 @@ public class NewsTest {
             mainSteps.loadMainScreen();
             mainSteps.clickAllNewsButton();
         }
-
     }
 
     @Test
@@ -91,7 +90,6 @@ public class NewsTest {
         newsStep.checkOpenNews(0);
         String createDescription = newsStep.getCreateNewsDescription(0);
         assertEquals(data.descriptionOnCyr, createDescription);
-
     }
 
     @Test
@@ -133,6 +131,37 @@ public class NewsTest {
     }
 
     @Test
+    @DisplayName("Создать новость со спец.символами")
+    public void createNewsWithSymbols() {
+        newsStep.clickEditButton();
+        panelStep.clickCreateNewsButton();
+        CreateNewsStep.newsScreenElements();
+        createNewsStep.createNews(randomCategory(), data.titleCyr, data.dateOfPublic, data.timeOfPublic, data.descriptionSymbols);
+        generalSteps.clickSaveButton();
+        generalSteps.checkInvalidData("Wrong format data", true);
+    }
+
+    @Test
+    @DisplayName("Отмена редактирование новости")
+    public void CancelEditNews() {
+        newsStep.clickEditButton();
+        panelStep.clickCreateNewsButton();
+        createNewsStep.createNews(randomCategory(), data.titleCyr, data.dateOfPublic, data.timeOfPublic, data.descriptionOnCyr);
+        generalSteps.clickSaveButton();
+        newsStep.loadNewsList();
+        panelStep.clickEditNewsButton(0);
+        editNewsStep.checkEditNewsElements();
+        editNewsStep.editTitle(data.editNewTitle);
+        editNewsStep.editDescription(data.editNewDescription);
+        generalSteps.clickCancelButton();
+        generalSteps.clickOkButton();
+        panelStep.checkPanelElements();
+        PanelElement.newsList.perform(swipeDown());
+        panelStep.clickOnAnyNews(0);
+        assertEquals(data.editNewTitle, panelStep.getEditedNewsTitle(0));
+    }
+
+    @Test
     @DisplayName("Отмена создание новости")
     public void cancelCreateNews() {
         newsStep.clickEditButton();
@@ -164,7 +193,6 @@ public class NewsTest {
         filterNews.clickFilterButton();
         newsStep.loadNewsList();
         panelStep.checkStatusIsNotActive();
-
     }
 
     @Test
@@ -186,6 +214,16 @@ public class NewsTest {
         filterNews.clickFilterButton();
         generalSteps.checkNewsListImage();
         generalSteps.checkNothingToShow();
+    }
+
+    @Test
+    @DisplayName("Отмена фильтрации")
+    public void cancelFiltering() {
+        newsStep.openFilter();
+        filterNews.checkFilterNewsElements();
+        filterNews.fillStartDate(data.dateOfPublic);
+        generalSteps.clickCancelButton();
+        newsStep.checkNewsElements();
     }
 
     @Test
@@ -211,5 +249,4 @@ public class NewsTest {
         String firstNewsTitleAfterAnotherSorting = newsStep.getFirsNewsTitleAfterAnotherSorting(0);
         assertEquals(filterNewsTitle, firstNewsTitleAfterAnotherSorting);
     }
-
 }
